@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from core.api.auth.serializers import UserSerializer
 from core.models import News, Category, Tag
 
 
@@ -20,6 +21,7 @@ class NewsSerializer(serializers.ModelSerializer):
     
     category_detail = CategorySerializer(read_only=True, many=False, source='category')
     tags_detail = TagSerializer(read_only=True, many=True, source='tags')
+    author_detail = UserSerializer(read_only=True, many=False, source='author')
     
     class Meta:
         model = News

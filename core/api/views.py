@@ -29,12 +29,18 @@ class NewsViewSet(PermissionByAction, ModelViewSet):
     ordering_fields = ['views',]
     search_fields = ['title', 'slug',]
     permission_classes_by_action = {
-        'create': [IsAuthenticated, IsAdminUser | IsOwner(attribute='author')],
+        'create': [IsAuthenticated, IsAdminUser | IsOwner],
         'list': [AllowAny,],
-        'update': [IsAuthenticated, IsAdminUser | IsOwner(attribute='author')],
+        'update': [IsAuthenticated, IsAdminUser | IsOwner],
         'retrieve': [AllowAny,],
-        'destroy': [IsAuthenticated, IsAdminUser | IsOwner(attribute='author')],
+        'destroy': [IsAuthenticated, IsAdminUser | IsOwner],
     }
+    
+    def retrieve(self, request, pk, *args, **kwargs):
+        news = self.queryset.get(id=pk)
+        news.views += 1
+        news.save()
+        return super().retrieve(self, request, *args, **kwargs)
     
 
 class CategoryViewSet(PermissionByAction, ModelViewSet):
