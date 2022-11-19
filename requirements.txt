@@ -11,6 +11,7 @@ django-filter
 django-jazzmin
 django-js-asset
 djangorestframework
+django-rest-registration
 drf-yasg
 idna
 inflection
@@ -21,11 +22,4 @@ openapi-codec
 packagin
 Pillow
 pyparsing
-pytz
-requests
-ruamel.yaml
-ruamel.yaml.clib
-simplejson
-sqlparse
-uritemplate
-urllib3
+

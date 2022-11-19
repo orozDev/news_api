@@ -9,6 +9,7 @@ router.register('news', NewsViewSet)
 router.register('tags', TagViewSet)
 
 urlpatterns = [
+    path('auth/', include('core.api.auth.urls')),
     path('', include(router.urls)),
 ]
 
