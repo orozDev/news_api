@@ -1,25 +1,11 @@
-asgiref
-certifi
-charset-normalizer
-coreapi
-coreschema
 Django
 django-ckeditor
 django-cleanup
 django-cors-headers
 django-filter
 django-jazzmin
-django-js-asset
 djangorestframework
 django-rest-registration
 drf-yasg
-idna
-inflection
-itypes
-Jinja2
-MarkupSafe
-openapi-codec
-packagin
 Pillow
-pyparsing
 
