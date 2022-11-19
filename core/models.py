@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
+from django_resized import ResizedImageField
 
 User = get_user_model()
 
@@ -25,7 +26,8 @@ class News(TimeAbstractModel):
         
     slug = models.SlugField(unique=True, null=True)
     title = models.CharField(max_length=100, verbose_name=_('заголовок'))
-    image = models.ImageField(verbose_name=_('изображение'), upload_to='news_images/')
+    image = ResizedImageField(force_format='WEBP', 
+            quality=80, verbose_name=_('изображение'), upload_to='news_images/')
     category = models.ForeignKey('Category',
             on_delete=models.PROTECT, verbose_name=_('категория'))
     tags = models.ManyToManyField('Tag', verbose_name=_('теги'))

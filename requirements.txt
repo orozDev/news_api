@@ -3,6 +3,7 @@ django-ckeditor
 django-cleanup
 django-cors-headers
 django-filter
+django-resized
 django-jazzmin
 djangorestframework
 django-rest-registration
