@@ -31,7 +31,7 @@ class News(TimeAbstractModel):
     category = models.ForeignKey('Category',
             on_delete=models.PROTECT, verbose_name=_('категория'))
     tags = models.ManyToManyField('Tag', verbose_name=_('теги'))
-    description = models.CharField(max_length=100, verbose_name=_('краткое описание'))
+    description = models.CharField(max_length=200, verbose_name=_('краткое описание'))
     content = models.TextField(verbose_name=_('контент'))
     views = models.PositiveIntegerField(verbose_name=_('просморы'), default=0)
     is_published = models.BooleanField(verbose_name=_('опубликовать'), default=True)
@@ -54,6 +54,10 @@ class Category(TimeAbstractModel):
     
     def __str__(self) -> str:
         return f'{self.title}'
+    
+    @property
+    def news_count(self) -> int:
+        return int(self.news_set.all().count())
     
 
 class Tag(TimeAbstractModel):

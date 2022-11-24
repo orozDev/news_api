@@ -26,7 +26,7 @@ class NewsViewSet(PermissionByAction, ModelViewSet):
     serializer_class = NewsSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['category', 'tags', 'is_published', 'author']
-    ordering_fields = ['views',]
+    ordering_fields = ['views', 'created_at']
     search_fields = ['title', 'slug',]
     permission_classes_by_action = {
         'create': [IsAuthenticated, IsAdminUser | IsOwner],

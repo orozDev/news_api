@@ -5,6 +5,8 @@ from core.models import News, Category, Tag
 
 class CategorySerializer(serializers.ModelSerializer):
     
+    count = serializers.IntegerField(read_only=True, source='news_count')
+    
     class Meta:
         model = Category
         fields = '__all__' 
