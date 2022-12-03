@@ -24,5 +24,5 @@ class LoginApi(GenericAPIView):
             profile = serializer.data
             data.update(profile)    
             return Response(data, status=200)
-        return Response({'detail': 'Не существует пользователя или неверные данные'})  
+        return Response({'detail': 'Не существует пользователя или неверные данные'}, status=401)  
     
