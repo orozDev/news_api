@@ -37,9 +37,12 @@ class NewsViewSet(PermissionByAction, ModelViewSet):
     }
     
     def retrieve(self, request, pk, *args, **kwargs):
-        news = self.queryset.get(id=pk)
-        news.views += 1
-        news.save()
+        try:
+            news = self.queryset.get(id=pk)
+            news.views += 1
+            news.save()
+        except News.DoesNotExist:
+            pass
         return super().retrieve(self, request, *args, **kwargs)
     
 
