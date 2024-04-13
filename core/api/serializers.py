@@ -27,7 +27,7 @@ class NewsSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = News
-        fields = '__all__'
+        exclude = ('author',)
         extra_kwargs = {
             'category_detail': {'read_only': True},
             'tags_detail': {'read_only': True},
