@@ -153,6 +153,8 @@ REST_REGISTRATION = {
    
 }
 
+CSRF_TRUSTED_ORIGINS = ['https://news-api.prolabagency.com', 'http://127.0.0.1:8000', 'http://localhost:8000']
+
 CORS_ORIGIN_ALLOW_ALL = True   
 
 CORS_ALLOW_HEADERS = [
