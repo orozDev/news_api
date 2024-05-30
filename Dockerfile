@@ -7,8 +7,6 @@ COPY requirements.txt /app/requirements.txt
 COPY . /app
 EXPOSE 8000
 
-RUN apk add postgresql-client build-base postgresql-dev
-
 RUN adduser --disabled-password app-user
 RUN chown -R app-user:app-user /app
 RUN chmod -R 777 /app/static
