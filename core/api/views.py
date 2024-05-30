@@ -3,12 +3,13 @@ from rest_framework import filters
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from core.api.paginations import StandardResultsSetPagination
-from core.api.permissions import IsOwner, PermissionByAction
-from core.api.serializers import NewsSerializer, CategorySerializer
+from core.api.permissions import IsOwner
+from core.api.serializers import ListNewsSerializer, DetailNewsSerializer, CreateUpdateNewsSerializer, CategorySerializer
 from core.models import Category, News, Tag
+from .mixins import UltraModelViewSet
 
 
-class NewsViewSet(PermissionByAction, ModelViewSet):
+class NewsViewSet(UltraModelViewSet):
     
     """
         Permissions:
@@ -23,11 +24,16 @@ class NewsViewSet(PermissionByAction, ModelViewSet):
     
     pagination_class = StandardResultsSetPagination
     queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    serializer_classes = {
+        'list': ListNewsSerializer,
+        'retrieve': DetailNewsSerializer,
+        'create': CreateUpdateNewsSerializer,
+        'update': CreateUpdateNewsSerializer,
+    }
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['category', 'tags', 'is_published', 'author']
     ordering_fields = ['views', 'created_at']
-    search_fields = ['title', 'slug',]
+    search_fields = ['name', 'slug', 'description', 'content']
     permission_classes_by_action = {
         'create': [IsAuthenticated, IsAdminUser | IsOwner],
         'list': [AllowAny,],
@@ -46,7 +52,7 @@ class NewsViewSet(PermissionByAction, ModelViewSet):
         return super().retrieve(self, request, *args, **kwargs)
     
 
-class CategoryViewSet(PermissionByAction, ModelViewSet):
+class CategoryViewSet(UltraModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes_by_action = {
@@ -59,7 +65,7 @@ class CategoryViewSet(PermissionByAction, ModelViewSet):
     
 
 
-class TagViewSet(PermissionByAction, ModelViewSet):
+class TagViewSet(UltraModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = CategorySerializer
     permission_classes_by_action = {

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from core.api.auth.serializers import UserSerializer
 from core.models import News, Category, Tag
+from django.contrib.auth.models import User
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -21,19 +22,60 @@ class TagSerializer(serializers.ModelSerializer):
 
 class NewsSerializer(serializers.ModelSerializer):
     
-    category_detail = CategorySerializer(read_only=True, many=False, source='category')
-    tags_detail = TagSerializer(read_only=True, many=True, source='tags')
-    author_detail = UserSerializer(read_only=True, many=False, source='author')
+    
+    class Meta:
+        model = News
+        fields = '__all__'
+        
+
+class ReadUserSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        exclude = (
+            'is_active',
+            'is_staff',
+            'date_joined',
+            'is_superuser',
+            'groups',
+            'user_permissions',
+            'password',
+            'last_login',
+        )
+    
+class CreateUpdateNewsSerializer(serializers.ModelSerializer):
+    
     
     class Meta:
         model = News
         exclude = ('author',)
-        extra_kwargs = {
-            'category_detail': {'read_only': True},
-            'tags_detail': {'read_only': True},
-        }
-
+        
     def create(self, validated_data):
-        request = self.context['request']
-        validated_data['author'] = request.user
+        user = self.context['request'].user
+        validated_data['author'] = user
         return super().create(validated_data)
+
+
+class ListNewsSerializer(serializers.ModelSerializer):
+    
+    category = CategorySerializer()
+    tags = TagSerializer(many=True)
+    author = ReadUserSerializer()
+    
+    
+    class Meta:
+        model = News
+        exclude = ('content',)
+        
+
+class DetailNewsSerializer(serializers.ModelSerializer):
+    
+    category = CategorySerializer()
+    tags = TagSerializer(many=True)
+    author = ReadUserSerializer()
+    
+    
+    class Meta:
+        model = News
+        fields = '__all__'
+

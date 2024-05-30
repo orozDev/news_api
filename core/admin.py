@@ -21,25 +21,25 @@ class NewsAmin(admin.ModelAdmin):
 
     list_display = (
         'id', 
-        'title', 
+        'name', 
         'created_at', 
         'category', 
         'views', 
         'is_published', 
         'get_image',
     )
-    list_display_links = ('id', 'title',)
+    list_display_links = ('id', 'name',)
     list_filter = ('category',)
-    search_fields = ('id', 'title',)
+    search_fields = ('id', 'name',)
     list_editable = ('is_published',)
     prepopulated_fields = {
-        'slug': ['title'],
+        'slug': ['name'],
     }
     form = NewsAdminForm
     fieldsets = (
         (_('Оснавная информация'), {'fields': (
             'slug',
-            'title',
+            'name',
             'image',
             'category',
             'tags',
@@ -62,7 +62,7 @@ class NewsAmin(admin.ModelAdmin):
             'classes': ('wide',),
             'fields': (
                     'slug',
-                    'title',
+                    'name',
                     'image',
                     'category',
                     'tags',
@@ -81,20 +81,20 @@ class NewsAmin(admin.ModelAdmin):
     @admin.display(description=_('Изображение'))
     def get_image(self, obj):
         return mark_safe('<img src="%s" alt="%s" width="200px" />' % \
-            (obj.image.url, obj.title))
+            (obj.image.url, obj.name))
     
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title',)
-    list_display_links = ('id', 'title',)
-    search_fields = ('id', 'title',)
+    list_display = ('id', 'name',)
+    list_display_links = ('id', 'name',)
+    search_fields = ('id', 'name',)
     
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title',)
-    list_display_links = ('id', 'title',)
-    search_fields = ('id', 'title',)
+    list_display = ('id', 'name',)
+    list_display_links = ('id', 'name',)
+    search_fields = ('id', 'name',)
     
 # Register your models here.

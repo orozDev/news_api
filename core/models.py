@@ -2,8 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django_resized import ResizedImageField
-
-User = get_user_model()
+from django.contrib.auth.models import User
 
 
 class TimeAbstractModel(models.Model):
@@ -25,7 +24,7 @@ class News(TimeAbstractModel):
         ordering = ('-created_at', '-updated_at',)
         
     slug = models.SlugField(unique=True, null=True)
-    title = models.CharField(max_length=100, verbose_name=_('заголовок'))
+    name = models.CharField(max_length=100, verbose_name=_('заголовок'))
     image = ResizedImageField(force_format='WEBP', 
             quality=80, verbose_name=_('изображение'), upload_to='news_images/')
     category = models.ForeignKey('Category',
@@ -39,7 +38,7 @@ class News(TimeAbstractModel):
             verbose_name=_('автор'), on_delete=models.CASCADE)
     
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.name}'
     
     
 class Category(TimeAbstractModel):
@@ -49,11 +48,11 @@ class Category(TimeAbstractModel):
         verbose_name_plural = 'категории'
         ordering = ('-created_at', '-updated_at',)
         
-    title = models.CharField(max_length=100, 
+    name = models.CharField(max_length=100, 
             verbose_name=_('название категории'), unique=True)
     
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.name}'
     
     @property
     def news_count(self) -> int:
@@ -67,10 +66,10 @@ class Tag(TimeAbstractModel):
         verbose_name_plural = 'теги'
         ordering = ('-created_at', '-updated_at',)
         
-    title = models.CharField(max_length=100, 
+    name = models.CharField(max_length=100, 
             verbose_name=_('название тега'), unique=True)
     
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.name}'
 
 # Create your models here.
