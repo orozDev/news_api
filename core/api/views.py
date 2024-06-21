@@ -30,6 +30,7 @@ class NewsViewSet(UltraModelViewSet):
         'create': CreateUpdateNewsSerializer,
         'update': CreateUpdateNewsSerializer,
     }
+    lookup_field = 'id'
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_fields = ['category', 'tags', 'is_published', 'author']
     ordering_fields = ['views', 'created_at']
