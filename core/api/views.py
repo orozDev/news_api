@@ -43,12 +43,11 @@ class NewsViewSet(UltraModelViewSet):
     }
     
     def retrieve(self, request, pk, *args, **kwargs):
-        try:
-            news = self.queryset.get(id=pk)
-            news.views += 1
-            news.save()
-        except News.DoesNotExist:
-            pass
+
+        news = self.get_object()
+        news.views += 1
+        news.save()
+     
         return super().retrieve(self, request, *args, **kwargs)
     
 
