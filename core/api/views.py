@@ -43,7 +43,7 @@ class NewsViewSet(UltraModelViewSet):
         'destroy': [IsAuthenticated, IsAdminUser | IsOwner],
     }
     
-    def retrieve(self, request, pk, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
 
         news = self.get_object()
         news.views += 1
